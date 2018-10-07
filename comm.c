@@ -201,9 +201,10 @@ static int __comm_write(struct comm *comm, uint8_t *data, uint32_t len)
 			if (errno != EWOULDBLOCK && errno != EAGAIN) {
 				fprintf(stderr, "__comm_write %s\n", strerror(errno));
 
-				/* TODO: Is this correct? Think SIGPIPE will kill us */
-				//close(comm->connection);
-				//comm->connection = -1;
+				if (errno == EPIPE) {
+					close(comm->connection);
+					comm->connection = -1;
+				}
 				return ret;
 			}
 		} else {
