@@ -243,10 +243,12 @@ int comm_send(struct comm *comm, uint32_t type, uint32_t length, uint8_t *data)
 		}
 	}
 
-	ret = __comm_write(comm, data, length);
-	if (ret < 0) {
-		fprintf(stderr, "__comm_send %d: %s\n", ret, strerror(errno));
-		return ret;
+	if (data) {
+		ret = __comm_write(comm, data, length);
+		if (ret < 0) {
+			fprintf(stderr, "__comm_send %d: %s\n", ret, strerror(errno));
+			return ret;
+		}
 	}
 
 	return 0;

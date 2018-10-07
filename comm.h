@@ -29,7 +29,7 @@ struct comm_packet {
 struct comm *comm_init_unix(const char *socket);
 struct comm *comm_init_tcp(int port);
 
-/* If type == 0, just send data */
+/* If type == 0, just send data. data can be NULL to send header only */
 int comm_send(struct comm *comm, uint32_t type, uint32_t length, uint8_t *data);
 int comm_poll(struct comm *comm, struct comm_packet **recv);
 void comm_free_packets(struct comm_packet *pkts, int npkts);
